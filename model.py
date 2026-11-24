@@ -11,3 +11,10 @@ class Embedding_layer:
     def forward(self, input):
         self.input = input
         return self.embeddings[input]
+
+    def backward(self, prev_grad):
+        grad_embeddings = np.zeros(self.embeddings.shape)
+        np.add.at(self.grad_embeddings, self.input, prev_grad)
+
+        self.grad_embeddings += grad_embeddings
+        return grad_embeddings
